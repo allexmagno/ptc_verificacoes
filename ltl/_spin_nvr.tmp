@@ -1,0 +1,25 @@
+never crit {    /* !([] ((! ((p1@critical))) || (! ((p2@critical))))) */
+T0_init:
+	do
+	:: atomic { (! (((! ((p1@critical))) || (! ((p2@critical)))))) -> assert(!(! (((! ((p1@critical))) || (! ((p2@critical))))))) }
+	:: (1) -> goto T0_init
+	od;
+accept_all:
+	skip
+}
+never justica {    /* !(([] ((! ((p1@critical))) || (<> (! ((p1@critical)))))) && ([] ((! ((p2@critical))) || (<> (! ((p2@critical))))))) */
+T0_init:
+	do
+	:: (! ((! ((p2@critical))))) -> goto accept_S5
+	:: (! ((! ((p1@critical))))) -> goto accept_S10
+	:: (1) -> goto T0_init
+	od;
+accept_S5:
+	do
+	:: (! ((! ((p2@critical))))) -> goto accept_S5
+	od;
+accept_S10:
+	do
+	:: (! ((! ((p1@critical))))) -> goto accept_S10
+	od;
+}

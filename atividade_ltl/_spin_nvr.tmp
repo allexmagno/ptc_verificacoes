@@ -1,0 +1,34 @@
+never f1 {    /* !(<> ((count==10))) */
+accept_init:
+T0_init:
+	do
+	:: (! (((count==10)))) -> goto T0_init
+	od;
+}
+never f2 {    /* !([] (<> ((count==10)))) */
+T0_init:
+	do
+	:: (! (((count==10)))) -> goto accept_S4
+	:: (1) -> goto T0_init
+	od;
+accept_S4:
+	do
+	:: (! (((count==10)))) -> goto accept_S4
+	od;
+}
+never f3 {    /* !(([] ((! ((counter@critical))) || (<> (! ((counter@critical)))))) && ([] ((! ((env@critical))) || (<> (! ((env@critical))))))) */
+T0_init:
+	do
+	:: (! ((! ((env@critical))))) -> goto accept_S5
+	:: (! ((! ((counter@critical))))) -> goto accept_S10
+	:: (1) -> goto T0_init
+	od;
+accept_S5:
+	do
+	:: (! ((! ((env@critical))))) -> goto accept_S5
+	od;
+accept_S10:
+	do
+	:: (! ((! ((counter@critical))))) -> goto accept_S10
+	od;
+}
